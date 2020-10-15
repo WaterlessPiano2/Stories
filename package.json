@@ -1,0 +1,44 @@
+{
+  "name": "Notes",
+  "version": "1.0.0",
+  "description": "A REST API backend application that can be used to manage personal notes in a multi-user environment.",
+  "main": "app.ts",
+  "scripts": {
+    "DBReset": "knex migrate:rollback --all",
+    "DBBuild": "knex migrate:latest", 
+    "test": "NODE_ENV=test npm run DBReset  && NODE_ENV=test  npm run DBBuild && jest",
+    "start": "node server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WaterlessPiano2/Notes.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WaterlessPiano2/Notes/issues"
+  },
+  "homepage": "https://github.com/WaterlessPiano2/Notes#readme",
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "@types/jest": "^26.0.14",
+    "babel-jest": "^26.5.2",
+    "jest": "^26.5.3",
+    "supertest": "^5.0.0",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3"
+  },
+  "dependencies": {
+    "@types/express": "^4.17.8",
+    "express": "^4.17.1",
+    "knex": "^0.21.6",
+    "sqlite3": "^5.0.0"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    }
+  }
+}
