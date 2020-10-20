@@ -7,6 +7,21 @@ A multi-path story is composed of sentences.
 After each sentence, there are up to four possible next sentences,
 and after each of those, another four possible next sentences, and so on.
 
+## Todos
+
+- [ ] Create a new note(story) - with name and userID
+- [ ] each story has a parentID, groupID, direction and snippet
+- [ ] Post and get story
+
+### how it works
+
+- User Posts a story
+- Can only post and get stories
+- then user post snippets to that story
+- Can only post, update and get snippets
+- get the begining or the next or the previous branch on the tree
+- to see other parts of the tree
+
 ## Starting
 
 To run the project follow the below instructions
@@ -47,13 +62,13 @@ It is maintained by Facebook. and it is one of the most videly used testing fram
 Behind the scenes this will destroy all the tables and then re create them from scratch, so the previous tests dont affect outcurrent tests.
 To make specific Knex commands to the test databaes use `NODE_ENV=test` before the command. For example `NODE_ENV=test knex migrate:rollback`.
 
-## Todos
+## Boiler plate todos
 
-- [ ] Create a new story - with name and userID
-- [ ] Story snippet directions - top, bottom, right, left
-- [ ] Story snippet levels - each direction has 3 children
-- [ ] each story has an userID, parentID, level, groupID, direction and snippet, in databasea
-- [ ] on a separate table keep track of the relationship between storys
+There are few known incomplete about this code being used in this situation
+
+- Can not have 2 varibales named the same at the top of the file, I am getting a type script error
+  `Cannot redeclare block-scoped variable 'app'.ts(2451)`
+- there is no user authentication
 
 ## Test Driven Development (TDD)
 
@@ -94,12 +109,3 @@ the reasons are:
 If I have time I would have also installed postgre and tested this to see which is better
 
 <https://stackoverflow.com/questions/3362669/what-are-the-known-ways-to-store-a-tree-structure-in-a-relational-db>
-
-### how it works
-
-- User Posts a story
-- Can only post and get stories
-- then user post snippets to that story
-- Can only post, update and get snippets
-- get the begining or the next or the previous branch on the tree
-- to see other parts of the tree
