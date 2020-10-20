@@ -109,6 +109,23 @@ app.get("/notes/:userId", async (req, res) => {
     });
 });
 
+app.get("/snippets/:parentId", async (req, res) => {
+  if (!req.body) {
+    throw new Error(
+      "The '/GET /note' end point has been called without a body"
+    );
+  }
+
+  db.getSnippetsByParentId(req.params.parentId)
+    .then((r) => {
+      res.send(r);
+    })
+    .catch((e) => {
+      res.statusCode = 400;
+      res.send({ error: e.message });
+    });
+});
+
 app.get("/allNotes/", async (req, res) => {
   db.getAllNotes()
     .then((r) => {

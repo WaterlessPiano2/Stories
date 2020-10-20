@@ -151,10 +151,33 @@ describe("Create, get, update and delete snippets", () => {
   });
 
   describe("Get/ snippet by parent Id", () => {
-    test("It should respond with the snippets under the given parent id ", () => {});
-    test("It should respond with the second snippets after giving 1 as the parent id ", () => {});
-    test("It should respond with the third and forth snippets after giving 2 as the parent id ", () => {});
-    test("It should error, when requesting a note for an invalid parent id", () => {});
+    test("It should respond with the second snippets after giving 1 as the parent id ", async () => {
+      return await r(a)
+        .get(`/snippets/${firstSnippet.id}`)
+        .then((r) => {
+          expect(r.body).toHaveLength(1);
+          expect(r.body[0].id).toBe(secondSnippet.id);
+          // expect(newUser.body.name).toBe(firstUser.name);
+          expect(r.statusCode).toBe(200);
+        })
+        .catch((e) => {
+          throw new Error(e);
+        });
+    });
+    test("It should respond with the third and forth snippets after giving 2 as the parent id ", async () => {
+      return await r(a)
+        .get(`/snippets/${secondSnippet.id}`)
+        .then((r) => {
+          expect(r.body).toHaveLength(2);
+          expect(r.body[0].id).toBe(thirdSnippet.id);
+          expect(r.body[1].id).toBe(fourthSnippet.id);
+          expect(r.statusCode).toBe(200);
+        })
+        .catch((e) => {
+          throw new Error(e);
+        });
+    });
+    //test("It should error, when requesting a note for an invalid parent id", async () => {});
   });
 
   describe("Get/ parent snippet by noteID", () => {

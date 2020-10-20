@@ -144,15 +144,16 @@ class DataBase {
     if (!id) {
       throw new Error("Can't find a snippet by Id, with missing Id");
     }
-
     let response = {};
     try {
-      await knex("snippets")
+      await knex
+        .select()
+        .from("snippets")
         .where("parentID", id)
         .then((note) => {
           response = note;
           if (note.length && typeof note[0] === "object") {
-            response = note[0];
+            response = note;
           } else {
             throw new Error(
               "Error getting Note by Id, No Snipeet with the given Id"
