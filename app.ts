@@ -55,6 +55,26 @@ app.post("/note", async (req, res) => {
     });
 });
 
+app.post("/snippet", async (req, res) => {
+  if (!req.body) {
+    throw new Error(
+      "The '/POST /snippet' end point has been called without a body"
+    );
+  }
+
+  if (req && req.body) {
+    //can have validation here
+    db.insertSnippet(req.body)
+      .then((r) => {
+        res.send(r);
+      })
+      .catch((e) => {
+        res.statusCode = 400;
+        res.send({ error: e.message });
+      });
+  }
+});
+
 app.get("/note/:id", async (req, res) => {
   if (!req.body) {
     throw new Error(
@@ -100,34 +120,6 @@ app.get("/allNotes/", async (req, res) => {
     });
 });
 
-app.get("/allNotesByArchiedState/:archived", async (req, res) => {
-  db.getAllNotesByArchiedState(req.params.archived)
-    .then((r) => {
-      res.send(r);
-    })
-    .catch((e) => {
-      res.statusCode = 400;
-      res.send({ error: e.message });
-    });
-});
-
-app.put("/archiveNoteToggle", async (req, res) => {
-  if (!req.body) {
-    throw new Error(
-      "The '/GET /note' end point has been called without a body"
-    );
-  }
-
-  db.archiveNoteToggle(req.body.id, req.body.userId)
-    .then((r) => {
-      res.send(r);
-    })
-    .catch((e) => {
-      res.statusCode = 400;
-      res.send({ error: e.message });
-    });
-});
-
 app.put("/note", async (req, res) => {
   if (!req.body) {
     throw new Error(
@@ -136,23 +128,6 @@ app.put("/note", async (req, res) => {
   }
 
   db.editNote(req.body.id, req.body.userId, req.body.note)
-    .then((r) => {
-      res.send(r);
-    })
-    .catch((e) => {
-      res.statusCode = 400;
-      res.send({ error: e.message });
-    });
-});
-
-app.delete("/note", async (req, res) => {
-  if (!req.body) {
-    throw new Error(
-      "The '/GET /note' end point has been called without a body"
-    );
-  }
-
-  db.deleteNote(req.body.id, req.body.userId)
     .then((r) => {
       res.send(r);
     })

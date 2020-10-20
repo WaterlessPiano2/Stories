@@ -1,7 +1,7 @@
 // supertest to test is used for HTTP requests/responses
-const request = require("supertest");
+const r = require("supertest");
 // we need our app for the correct routes
-const testApp = require("../app");
+const a = require("../app");
 // let the system know that we are using the test mode
 process.env.NODE_ENV = "test";
 
@@ -14,7 +14,7 @@ describe("Sense checking", () => {
 
   // this test will make sure the app is running and it accepts coonections
   test("The REST API works", async () => {
-    return await request(testApp)
+    return await r(a)
       .get("/")
       .then((response) => {
         // Check that the api is running
@@ -38,64 +38,116 @@ const firstStory = {
   },
   firstSnippet = {
     snippet: "First snippet mother Branch",
-    id: 1,
     parentID: null,
-    storyID: 1,
+    id: 1,
+    noteID: 1,
     direction: null,
   },
   secondSnippet = {
     snippet: "Second snippet, level 1",
     id: 2,
     parentID: 1,
-    storyID: 1,
+    noteID: 1,
     direction: "top",
   },
   thirdSnippet = {
     snippet: "Third snippet level 2",
     id: 3,
     parentID: 2,
-    storyID: 1,
+    noteID: 1,
     direction: "right",
   },
   fourthSnippet = {
     snippet: "FourtH snippet level 2",
     id: 4,
     parentID: 2,
-    storyID: 1,
+    noteID: 1,
     direction: "left",
   };
 
 // Testing snippetts
-describe("Create and get a snippet", () => {
-  describe("POST /snippet ", () => {
-    // TODO: tests for attempting to insert invalid user
 
-    it("It should respond with the newly added snipet", () => {});
-
-    //running the same test for the second user to make sure we can handle multiple users
-    test("It should respond with the newly added user id after adding the second snippet in the same level", () => {});
-
-    it("It should respond with the newly added snipet in the scond level", () => {});
-
-    //running the same test for the second user to make sure we can handle multiple users
-    test("It should respond with the newly added user id after adding the second snippet in the second level", () => {});
-  });
-
-  describe("GET /spnippets/:parentID ", () => {
-    test("It should respond with the correct snippets after passing in the first parent id ", () => {});
-
-    test("It should respond with the correct snippets after passing in the second parent id", () => {});
-  });
-});
-
-// Testing notes
-describe("Create, get, update, archive and delete snippets", () => {
-  describe("POST/ note", () => {
+describe("Create, get, update and delete snippets", () => {
+  describe("POST/ snippet", () => {
     //breath and depth
-    test("It should respond with the newly added snippet id ", () => {});
-    test("It should respond with the newly added snippet id, after adding the second snippet in the second level", () => {});
-    test("It should respond with the newly added snippet id, after adding the third snippet in the fisrt level", () => {});
-    test("It should error, when adding a snippet with missing info", () => {});
+    test("It should respond with the newly added snippet id ", async () => {
+      return await r(a)
+        .post("/snippet")
+        .send(firstSnippet)
+        .then((r) => {
+          // make sure the id is generated
+          expect(r.body.id).toBe(firstSnippet.id);
+          // // make sure the name is saved correctly
+          // expect(newUser.body.name).toBe(firstUser.name);
+          expect(r.statusCode).toBe(200);
+        })
+        .catch((e) => {
+          throw new Error(e);
+        });
+    });
+    test("It should respond with the newly added snippet id, after adding the second snippet in the second level", async () => {
+      return await r(a)
+        .post("/snippet")
+        .send(secondSnippet)
+        .then((r) => {
+          // console.log(r.body);
+          // make sure the id is generated
+          expect(r.body.id).toBe(secondSnippet.id);
+          // // make sure the name is saved correctly
+          // expect(newUser.body.name).toBe(firstUser.name);
+          expect(r.statusCode).toBe(200);
+        })
+        .catch((e) => {
+          throw new Error(e);
+        });
+    });
+
+    test("It should respond with the newly added snippet id, after adding the third snippet in the fisrt level", async () => {
+      return await r(a)
+        .post("/snippet")
+        .send(thirdSnippet)
+        .then((r) => {
+          // console.log(r.body);
+          // make sure the id is generated
+          expect(r.body.id).toBe(thirdSnippet.id);
+          // // make sure the name is saved correctly
+          // expect(newUser.body.name).toBe(firstUser.name);
+          expect(r.statusCode).toBe(200);
+        })
+        .catch((e) => {
+          throw new Error(e);
+        });
+    });
+
+    test("It should respond with the newly added snippet id, after adding the fourth snippet id in the fisrt level", async () => {
+      return await r(a)
+        .post("/snippet")
+        .send(fourthSnippet)
+        .then((r) => {
+          // console.log(r.body);
+          // make sure the id is generated
+          expect(r.body.id).toBe(fourthSnippet.id);
+          // // make sure the name is saved correctly
+          // expect(newUser.body.name).toBe(firstUser.name);
+          expect(r.statusCode).toBe(200);
+        })
+        .catch((e) => {
+          throw new Error(e);
+        });
+    });
+    // test("It should error, when adding a snippet with missing info", async () => {
+    //   return await r(a)
+    //     .post("/snippet")
+    //     .send({})
+    //     .then((r) => {
+    //       console.log(r);
+    //       throw new Error(r);
+    //     })
+    //     .catch((e) => {
+    //       console.log(e);
+    //       expect(e.statusCode).toBe(400);
+    //     });
+    // });
   });
 
   describe("Get/ snippet by parent Id", () => {
