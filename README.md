@@ -1,10 +1,19 @@
-# Notes
+# A storybook
 
-A REST API backend application that can be used to manage personal notes in a multi-user environment.
+A web application which enables the user to write **"multi-path stories."**
+
+A multi-path story is composed of sentences.
+
+After each sentence, there are up to four possible next sentences,
+and after each of those, another four possible next sentences, and so on.
 
 ## Starting
 
+To run the project follow the below instructions
+
 ### Install Node packages
+
+Make sure you have node and npm installed, then run
 
 `npm install`
 
@@ -40,20 +49,13 @@ To make specific Knex commands to the test databaes use `NODE_ENV=test` before t
 
 ## Todos
 
-- [x] Save a new note
-- [x] Update a previously saved note
-- [x] Delete a saved note
-- [x] Archive a note
-- [x] Unarchive a previously archived note
-- [x] List saved notes that aren't archived
-- [x] List notes that are archived
-- [x] Multi user
+- [ ] Create a new story - with name and userID
+- [ ] Story snippet directions - top, bottom, right, left
+- [ ] Story snippet levels - each direction has 3 children
+- [ ] each story has an userID, parentID, level, groupID, direction and snippet, in databasea
+- [ ] on a separate table keep track of the relationship between storys
 
-## Reasons Behind Decisions
-
-Here I will describe how I made some of the decisions and why.
-
-### Test Driven Development (TDD)
+## Test Driven Development (TDD)
 
 Writing tests before implementing the feature. the tests will initially fail. As the feature gets implemented, the tests will pass one by one.
 The reason I have decided to go with TDD is because
@@ -62,3 +64,42 @@ The reason I have decided to go with TDD is because
 - Maybe front end development manual testing is easier, but in the back end it is not.
 - Without automated tests I would have either had a ton of curl comands for testing each endpoint differently, and they would have got confusing.
 - I can quickly test the whole app every time I want to do a test.
+
+## Database model
+
+How I decided to chose it
+
+### Stack overflow
+
+I think the naive option which is having p0arent id fits the requirements best
+
+<https://stackoverflow.com/questions/3362669/what-are-the-known-ways-to-store-a-tree-structure-in-a-relational-db>
+
+the reasons are:
+
+**Pros:**
+
+- easy to implement
+- easy to move a big subtree to another parent
+- insert is cheap
+- Needed Fields directly accessible in SQL
+
+**Cons:**
+
+- retrieving a whole tree is recursive and therefore expensive
+- finding all parents is expensive too ( SQL doesn't know recursions... )
+
+### Postgresql
+
+If I have time I would have also installed postgre and tested this to see which is better
+
+<https://stackoverflow.com/questions/3362669/what-are-the-known-ways-to-store-a-tree-structure-in-a-relational-db>
+
+### how it works
+
+- User Posts a story
+- Can only post and get stories
+- then user post snippets to that story
+- Can only post, update and get snippets
+- get the begining or the next or the previous branch on the tree
+- to see other parts of the tree
