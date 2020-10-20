@@ -14,7 +14,7 @@ describe("Sense checking", () => {
 
   // this test will make sure the app is running and it accepts coonections
   test("The REST API works", async () => {
-    request(testApp)
+    return await request(testApp)
       .get("/")
       .then((response) => {
         // Check that the api is running
@@ -56,7 +56,8 @@ const firstStory = {
     parentID: 2,
     storyID: 1,
     direction: "right",
-  }, fourthSnippet = {
+  },
+  fourthSnippet = {
     snippet: "FourtH snippet level 2",
     id: 4,
     parentID: 2,
@@ -69,86 +70,56 @@ describe("Create and get a snippet", () => {
   describe("POST /snippet ", () => {
     // TODO: tests for attempting to insert invalid user
 
-    it("It should respond with the newly added snipet", () => {
-    });
+    it("It should respond with the newly added snipet", () => {});
 
     //running the same test for the second user to make sure we can handle multiple users
-    test("It should respond with the newly added user id after adding the second snippet in the same level", () => {
-    });
+    test("It should respond with the newly added user id after adding the second snippet in the same level", () => {});
 
-    it("It should respond with the newly added snipet in the scond level", () => {
-    });
+    it("It should respond with the newly added snipet in the scond level", () => {});
 
     //running the same test for the second user to make sure we can handle multiple users
-    test("It should respond with the newly added user id after adding the second snippet in the second level", () => {
-    });
+    test("It should respond with the newly added user id after adding the second snippet in the second level", () => {});
   });
 
   describe("GET /spnippets/:parentID ", () => {
-    test("It should respond with the correct snippets after passing in the first parent id ", async () => {
-    });
+    test("It should respond with the correct snippets after passing in the first parent id ", () => {});
 
-    test("It should respond with the correct snippets after passing in the second parent id", async () => {
-    });
+    test("It should respond with the correct snippets after passing in the second parent id", () => {});
   });
 });
 
 // Testing notes
 describe("Create, get, update, archive and delete snippets", () => {
   describe("POST/ note", () => {
-    test("It should respond with the newly added snippet id ", async () => {
- 
-    });
-
-    test("It should respond with the newly added snippet id, after adding the second snippet in the second level", async () => {});
-    //this test is to make sure tha the same user can have multiple notes
-    test("It should respond with the newly added snippet id, after adding the third snippet in the fisrt level", async () => {
-    });
-
-    test("It should error, when adding a snippet with missing info", async () => {
-
+    //breath and depth
+    test("It should respond with the newly added snippet id ", () => {});
+    test("It should respond with the newly added snippet id, after adding the second snippet in the second level", () => {});
+    test("It should respond with the newly added snippet id, after adding the third snippet in the fisrt level", () => {});
+    test("It should error, when adding a snippet with missing info", () => {});
   });
-
 
   describe("Get/ snippet by parent Id", () => {
-    test("It should respond with the snippets under the given parent id ", async () => {
-
-    });
-
-    test("It should respond with the second snippets after giving 1 as the parent id ", async () => {
-
-    });
-    test("It should respond with the third and forth snippets after giving 2 as the parent id ", async () => {
-
-    });
-
-    test("It should error, when requesting a note for an invalid parent id", async () => {
-    });
+    test("It should respond with the snippets under the given parent id ", () => {});
+    test("It should respond with the second snippets after giving 1 as the parent id ", () => {});
+    test("It should respond with the third and forth snippets after giving 2 as the parent id ", () => {});
+    test("It should error, when requesting a note for an invalid parent id", () => {});
   });
 
   describe("Get/ parent snippet by noteID", () => {
-    test("It should respond with the mother snippet  with Id 1 when given 1 the story ID", async () => {
-
+    test("It should respond with the mother snippet  with Id 1 when given 1 the story ID", () => {});
+    describe("Get/ parent snippet by noteID", () => {
+      test("It should respond with the mother snippet  with Id 1 when given 1 the story ID", () => {});
+      // TEST THIS FOR MULTIPLE STORIES
     });
-
-  describe("Get/ parent snippet by noteID", () => {
-    test("It should respond with the mother snippet  with Id 1 when given 1 the story ID", async () => {
-
-    });
-    // TEST THIS FOR MULTIPLE STORIES
   });
 
   describe("PUT/ Snippet", () => {
     describe("Update snippet content  ", () => {
-      test("It should prove that the snippet is updated (first)", async () => {
-      });
-
-      test("It should prove that the snippet is updated (second)", async () => {
-      });
-
-      test("It should error, when updating another users story", async () => {
-// TODO: PREPARE DATA FOR THIS TEST
+      test("It should prove that the snippet is updated (first)", () => {});
+      test("It should prove that the snippet is updated (second)", () => {});
+      test("It should error, when updating another users story", () => {
+        // TODO: PREPARE DATA FOR THIS TEST
       });
     });
-  })
-})
+  });
+});

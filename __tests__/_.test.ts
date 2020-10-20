@@ -13,7 +13,7 @@ describe("Sense checking", () => {
   });
 
   // this test will make sure the app is running and it accepts coonections
-  test("The REST API works", async () => {
+  test("The REST API works",  () => {
     // const response = await request(testApp).get("/");
     // // Check that the api is running
     // expect(response.body).toEqual("Hello World");
