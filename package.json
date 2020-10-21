@@ -5,7 +5,7 @@
   "main": "app.ts",
   "scripts": {
     "DBReset": "knex migrate:rollback --all",
-    "DBBuild": "knex migrate:latest", 
+    "DBBuild": "knex migrate:latest",
     "test": "NODE_ENV=test npm run DBReset  && NODE_ENV=test  npm run DBBuild && jest",
     "start": "node server.ts"
   },

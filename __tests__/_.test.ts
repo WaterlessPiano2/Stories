@@ -5,17 +5,16 @@ const testApp = require("../app");
 // let the system know that we are using the test mode
 process.env.NODE_ENV = "test";
 
-// Testing the app
+//Testing the app
 describe("Sense checking", () => {
-  // this first test failing shows that there is a problem with the test framework that we need to fix
+  //this first test failing shows that there is a problem with the test framework that we need to fix
   test("Testing frame work works", () => {
     expect(3 + 1).toBe(4);
   });
 
-  // this test will make sure the app is running and it accepts coonections
+  //this test will make sure the app is running and it accepts coonections
   test("The REST API works", async () => {
     const response = await request(testApp).get("/");
-
     // Check that the api is running
     expect(response.body).toEqual("Hello World");
     expect(response.statusCode).toBe(200);
@@ -104,7 +103,7 @@ describe("Create and get a user in a multi user environment", () => {
 });
 
 // Testing notes
-describe("Create, get, update, archive and delete notes", () => {
+describe("Create, get and update notes", () => {
   describe("POST/ note", () => {
     test("It should respond with the newly added note id ", async () => {
       const newNote = await request(testApp).post("/note").send({
@@ -305,105 +304,9 @@ describe("Create, get, update, archive and delete notes", () => {
         expect(note.statusCode).toBe(400);
       });
       // what should be the permssions to edit?
-    });
+    })
 
-    describe("PUT/ Archive note", () => {
-      test("It should respond with the newly archived note (third note)", async () => {
-        let note = await request(testApp)
-          .put(`/archiveNoteToggle`)
-          .send({ id: secondNote.id, userId: secondNote.userId });
-
-        expect(note.body.message).toBe("success");
-        expect(note.statusCode).toBe(200);
-
-        note = await request(testApp).get(`/note/${secondNote.id}`);
-
-        expect(note.body.id).toBe(secondNote.id);
-        expect(note.body.isArchived).toBe(1);
-        expect(note.statusCode).toBe(200);
-      });
-
-      test("It should respond with the newly archived note, after archiving the second note", async () => {
-        let note = await request(testApp)
-          .put(`/archiveNoteToggle`)
-          .send({ id: thirdNote.id, userId: thirdNote.userId });
-
-        expect(note.body.message).toBe("success");
-        expect(note.statusCode).toBe(200);
-
-        note = await request(testApp).get(`/note/${thirdNote.id}`);
-
-        expect(note.body.id).toBe(thirdNote.id);
-        expect(note.body.isArchived).toBe(1);
-        expect(note.statusCode).toBe(200);
-      });
-
-      test("It should respond with the newly *UN*archived note, after *UN*archiving the second note", async () => {
-        let note = await request(testApp)
-          .put(`/archiveNoteToggle`)
-          .send({ id: secondNote.id, userId: secondNote.userId });
-
-        expect(note.body.message).toBe("success");
-        expect(note.statusCode).toBe(200);
-
-        note = await request(testApp).get(`/note/${secondNote.id}`);
-
-        expect(note.body.id).toBe(secondNote.id);
-        expect(note.body.isArchived).toBe(0);
-        expect(note.statusCode).toBe(200);
-      });
-
-      test("It should error, when archiving a note with an invalid note Id", async () => {
-        let note = await request(testApp)
-          .put(`/archiveNoteToggle`)
-          .send({ id: 0, userId: secondNote.userId });
-
-        expect(note.body.error).toBe(
-          "Error getting Note by Id, No note with the given Id"
-        );
-        expect(note.statusCode).toBe(400);
-      });
-    });
   });
 
-  describe("Get/ archived notes by User", () => {
-    test("It should respond with the notes archived", async () => {
-      const notes = await request(testApp).get(`/allNotesByArchiedState/1`);
 
-      expect(notes.body).toHaveLength(1);
-      expect(notes.body[0].id).toBe(thirdNote.id);
-      expect(notes.statusCode).toBe(200);
-      return;
-    });
-
-    test("It should respond with the notes *UN*archived", async () => {
-      const notes = await request(testApp).get(`/allNotesByArchiedState/0`);
-
-      expect(notes.body).toHaveLength(2);
-      expect(notes.body[0].id).toBe(firstNote.id);
-      expect(notes.body[1].id).toBe(secondNote.id);
-      expect(notes.statusCode).toBe(200);
-      return;
-    });
-  });
-
-  describe("DELETE/ note", () => {
-    test("It should respond with the confirmation ", async () => {
-      let note = await request(testApp)
-        .delete(`/note`)
-        .send({ id: secondNote.id, userId: secondNote.userId });
-
-      expect(note.body.message).toBe("success");
-      expect(note.statusCode).toBe(200);
-    });
-
-    test("It should respond with the list of notes without the previously deleted note ", async () => {
-      const notes = await request(testApp).get(`/allNotes`);
-
-      expect(notes.body).toHaveLength(2);
-      expect(notes.body[0].id).toBe(firstNote.id);
-      expect(notes.body[1].id).toBe(thirdNote.id);
-      expect(notes.statusCode).toBe(200);
-    });
-  });
 });

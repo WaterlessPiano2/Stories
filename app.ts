@@ -55,6 +55,26 @@ app.post("/note", async (req, res) => {
     });
 });
 
+app.post("/snippet", async (req, res) => {
+  if (!req.body) {
+    throw new Error(
+      "The '/POST /snippet' end point has been called without a body"
+    );
+  }
+
+  if (req && req.body) {
+    //can have validation here
+    db.insertSnippet(req.body)
+      .then((r) => {
+        res.send(r);
+      })
+      .catch((e) => {
+        res.statusCode = 400;
+        res.send({ error: e.message });
+      });
+  }
+});
+
 app.get("/note/:id", async (req, res) => {
   if (!req.body) {
     throw new Error(
@@ -63,6 +83,17 @@ app.get("/note/:id", async (req, res) => {
   }
 
   db.getNoteById(req.params.id)
+    .then((r) => {
+      res.send(r);
+    })
+    .catch((e) => {
+      res.statusCode = 400;
+      res.send({ error: e.message });
+    });
+});
+
+app.get("/backToStart/:id", async (req, res) => {
+  db.backToStart(req.params.id)
     .then((r) => {
       res.send(r);
     })
@@ -89,36 +120,25 @@ app.get("/notes/:userId", async (req, res) => {
     });
 });
 
-app.get("/allNotes/", async (req, res) => {
-  db.getAllNotes()
-    .then((r) => {
-      res.send(r);
-    })
-    .catch((e) => {
-      res.statusCode = 400;
-      res.send({ error: e.message });
-    });
-});
-
-app.get("/allNotesByArchiedState/:archived", async (req, res) => {
-  db.getAllNotesByArchiedState(req.params.archived)
-    .then((r) => {
-      res.send(r);
-    })
-    .catch((e) => {
-      res.statusCode = 400;
-      res.send({ error: e.message });
-    });
-});
-
-app.put("/archiveNoteToggle", async (req, res) => {
+app.get("/snippets/:parentId", async (req, res) => {
   if (!req.body) {
     throw new Error(
       "The '/GET /note' end point has been called without a body"
     );
   }
 
-  db.archiveNoteToggle(req.body.id, req.body.userId)
+  db.getSnippetsByParentId(req.params.parentId)
+    .then((r) => {
+      res.send(r);
+    })
+    .catch((e) => {
+      res.statusCode = 400;
+      res.send({ error: e.message });
+    });
+});
+
+app.get("/allNotes/", async (req, res) => {
+  db.getAllNotes()
     .then((r) => {
       res.send(r);
     })
@@ -145,14 +165,14 @@ app.put("/note", async (req, res) => {
     });
 });
 
-app.delete("/note", async (req, res) => {
+app.put("/snippet", async (req, res) => {
   if (!req.body) {
     throw new Error(
       "The '/GET /note' end point has been called without a body"
     );
   }
 
-  db.deleteNote(req.body.id, req.body.userId)
+  db.editSnippet(req.body)
     .then((r) => {
       res.send(r);
     })
