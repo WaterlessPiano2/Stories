@@ -281,5 +281,26 @@ class DataBase {
 
     return response;
   }
+
+  static async editSnippet(snippet) {
+    let response = {};
+    console.log(321321);
+    try {
+      await knex("snippet")
+        .where({ id: snippet.id })
+        .update({ snippet: snippet.snippet })
+        .then((r) => {
+          if (r == 1) {
+            response = { message: "success" };
+          } else {
+            throw new Error(r.toString());
+          }
+        });
+    } catch (e) {
+      throw e;
+    }
+    console.log(response);
+    return response;
+  }
 }
 module.exports = DataBase;

@@ -197,81 +197,75 @@ describe("Create, get, update and delete snippets", () => {
   // TEST THIS FOR MULTIPLE STORIES
 });
 
-// describe("PUT/ Snippet", () => {
-//   describe("Update snippet content  ", () => {
-//     test("It should prove that the snippet is updated (first)", async () => {
-//       return await r(a)
-//         .get(`/updateSnippet/`)
-//         .send({ Snippet: "updated first snippet", id: 1 })
+describe("PUT/ Snippet", () => {
+  describe("Update snippet content  ", () => {
+    test("It should prove that the snippet is updated (first)", async () => {
+      return await r(a)
+        .put(`/Snippet/`)
+        .send({ Snippet: "updated first snippet", id: 1 })
 
-//         .then((r) => {
-//           expect(r.body.id).toBe(firstSnippet.id);
-//           expect(r.statusCode).toBe(200);
-//         })
-//         .catch((e) => {
-//           throw new Error(e);
-//         });
-//     });
-//     test("It should prove that the snippet is updated (first)", async () => {
-//       return await r(a)
-//         .get(`/Snippet/${firstSnippet.id}`) //BUG ! WHAT EOULD I PUT here?
-//         .then((r) => {
-//           expect(r.body.id).toBe(firstSnippet.id);
+        .then((r) => {
+          expect(r.body.message).toBe("success");
+          expect(r.statusCode).toBe(200);
+        })
+        .catch((e) => {
+          throw new Error(e);
+        });
+    });
+    test("It should prove that the snippet is updated (first)", async () => {
+      return await r(a)
+        .get(`/snippets/${firstSnippet.id}`) //BUG ! WHAT EOULD I PUT here?
+        .then((r) => {
+          expect(r.body).toHaveLength(1);
+          expect(r.body[0].id).toBe(firstSnippet.id);
+          expect(r.body[0].snippet).toBe("updated first snippet");
 
-//           expect(r.statusCode).toBe(200);
-//         })
-//         .catch((e) => {
-//           throw new Error(e);
-//         });
-//     });
-//     test("It should prove that the snippet is updated (second) staright after editing it", async () => {
-//       // TODO: PREPARE DATA FOR THIS TEST
-//       await r(a)
-//         .get(`/updateSnippet/`)
-//         .send({ Snippet: "updated second snippet", id: 2 })
+          expect(r.statusCode).toBe(200);
+        })
+        .catch((e) => {
+          console.log(e);
+          throw new Error(e);
+        });
 
-//         .then((r) => {
-//           expect(r.body.id).toBe(secondSnippet.id);
-//           expect(r.statusCode).toBe(200);
-//         })
-//         .catch((e) => {
-//           throw new Error(e);
-//         });
+      return await r(a)
+        .get(`/snippets/${firstSnippet.id}`)
+        .then((r) => {
+          expect(r.body).toHaveLength(1);
+          expect(r.body[0].id).toBe(secondSnippet.id);
+          // expect(newUser.body.name).toBe(firstUser.name);
+          expect(r.statusCode).toBe(200);
+        })
+        .catch((e) => {
+          throw new Error(e);
+        });
+    });
+    test("It should prove that the snippet is updated (second) staright after editing it", async () => {
+      // TODO: PREPARE DATA FOR THIS TEST
+      await r(a)
+        .put(`/Snippet/`)
+        .send({ Snippet: "updated second snippet", id: 2 })
+        .then((r) => {
+          expect(r.body.message).toBe("success");
+          expect(r.statusCode).toBe(200);
+        })
+        .catch((e) => {
+                    console.log(e);
 
-//       await r(a)
-//         .get(`/Snippet/${secondSnippet.id}`) //BUG ! WHAT wOULD I PUT here?
-//         .then((r) => {
-//           expect(r.body.id).toBe(secondSnippet.id);
-//           expect(r.body.Snippet).toBe("updated second snippet");
-//           expect(r.statusCode).toBe(200);
-//         })
-//         .catch((e) => {
-//           throw new Error(e);
-//         });
-//     });
-//     test("It should prove that the snippet is updated (second) staright after editing it", async () => {
-//       // TODO: PREPARE DATA FOR THIS TEST
-//       await r(a)
-//         .get(`/updateSnippet/`)
-//         .send({ Snippet: "updated first snippet" })
+          throw new Error(e);
+        });
 
-//         .then((r) => {
-//           expect(r.body.id).toBe(firstSnippet.id);
-//           expect(r.statusCode).toBe(200);
-//         })
-//         .catch((e) => {
-//           throw new Error(e);
-//         });
+      await r(a)
+        .get(`/snippets/${secondSnippet.id}`) //BUG ! WHAT wOULD I PUT here?
+        .then((r) => {
+          expect(r.body.id).toBe(secondSnippet.id);
+          expect(r.body.Snippet).toBe("updated second snippet");
+          expect(r.statusCode).toBe(200);
+        })
+        .catch((e) => {
+          console.log(e);
 
-//       await r(a)
-//         .get(`/Snippet/${fourthSnippet.id}`)
-//         .then((r) => {
-//           expect(r.body.id).toBe(firstSnippet.id);
-//           expect(r.statusCode).toBe(200);
-//         })
-//         .catch((e) => {
-//           throw new Error(e);
-//         });
-//     });
-//   });
-// });
+          throw new Error(e);
+        });
+    });
+  });
+});

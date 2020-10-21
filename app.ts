@@ -165,4 +165,21 @@ app.put("/note", async (req, res) => {
     });
 });
 
+app.put("/snippet", async (req, res) => {
+  if (!req.body) {
+    throw new Error(
+      "The '/GET /note' end point has been called without a body"
+    );
+  }
+
+  db.editSnippet(req.body)
+    .then((r) => {
+      res.send(r);
+    })
+    .catch((e) => {
+      res.statusCode = 400;
+      res.send({ error: e.message });
+    });
+});
+
 module.exports = app;
