@@ -92,6 +92,17 @@ app.get("/note/:id", async (req, res) => {
     });
 });
 
+app.get("/MainparentSnippet/:id", async (req, res) => {
+  db.getMainParentSnippet(req.params.id)
+    .then((r) => {
+      res.send(r);
+    })
+    .catch((e) => {
+      res.statusCode = 400;
+      res.send({ error: e.message });
+    });
+});
+
 app.get("/notes/:userId", async (req, res) => {
   if (!req.body) {
     throw new Error(

@@ -140,6 +140,34 @@ class DataBase {
     return response;
   }
 
+  static async getMainParentSnippet(id) {
+    if (!id) {
+      throw new Error("Can't find a snippet by Id, with missing Id");
+    }
+    let mainParent;
+    try {
+      await knex("snippets")
+        //This is a short cut I took to make it easier to find parent,
+        //other wise it would have been more complex to loop each level snippet,
+        // untill i Find the paernt snippet
+        .where({ noteID: id, parentID: null })
+        .then((note) => {
+          mainParent = note;
+          if (note.length && typeof note[0] === "object") {
+            mainParent = note[0];
+          } else {
+            throw new Error(
+              "Error getting Note by Id, No note with the given Id"
+            );
+          }
+        });
+    } catch (e) {
+      throw e;
+    }
+
+    return mainParent; //await this.getSnippetsByParentId(mainParent.id);
+  }
+
   static async getSnippetsByParentId(id) {
     if (!id) {
       throw new Error("Can't find a snippet by Id, with missing Id");

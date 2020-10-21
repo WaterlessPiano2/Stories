@@ -180,21 +180,97 @@ describe("Create, get, update and delete snippets", () => {
     //test("It should error, when requesting a note for an invalid parent id", async () => {});
   });
 
-  describe("Get/ parent snippet by noteID", () => {
-    test("It should respond with the mother snippet  with Id 1 when given 1 the story ID", () => {});
-    describe("Get/ parent snippet by noteID", () => {
-      test("It should respond with the mother snippet  with Id 1 when given 1 the story ID", () => {});
-      // TEST THIS FOR MULTIPLE STORIES
+  describe("Get/ Main parent snippet by noteID", () => {
+    test("It should respond with the correct main parent snippet when given a snippet ID", async () => {
+      return await r(a)
+        .get(`/MainParentSnippet/${fourthSnippet.noteID}`)
+        .then((r) => {
+          expect(r.body.id).toBe(firstSnippet.id);
+          expect(r.statusCode).toBe(200);
+        })
+        .catch((e) => {
+          throw new Error(e);
+        });
     });
   });
-
-  describe("PUT/ Snippet", () => {
-    describe("Update snippet content  ", () => {
-      test("It should prove that the snippet is updated (first)", () => {});
-      test("It should prove that the snippet is updated (second)", () => {});
-      test("It should error, when updating another users story", () => {
-        // TODO: PREPARE DATA FOR THIS TEST
-      });
-    });
-  });
+  // TEST THIS FOR MULTIPLE STORIES
 });
+
+// describe("PUT/ Snippet", () => {
+//   describe("Update snippet content  ", () => {
+//     test("It should prove that the snippet is updated (first)", async () => {
+//       return await r(a)
+//         .get(`/updateSnippet/`)
+//         .send({ Snippet: "updated first snippet", id: 1 })
+
+//         .then((r) => {
+//           expect(r.body.id).toBe(firstSnippet.id);
+//           expect(r.statusCode).toBe(200);
+//         })
+//         .catch((e) => {
+//           throw new Error(e);
+//         });
+//     });
+//     test("It should prove that the snippet is updated (first)", async () => {
+//       return await r(a)
+//         .get(`/Snippet/${firstSnippet.id}`) //BUG ! WHAT EOULD I PUT here?
+//         .then((r) => {
+//           expect(r.body.id).toBe(firstSnippet.id);
+
+//           expect(r.statusCode).toBe(200);
+//         })
+//         .catch((e) => {
+//           throw new Error(e);
+//         });
+//     });
+//     test("It should prove that the snippet is updated (second) staright after editing it", async () => {
+//       // TODO: PREPARE DATA FOR THIS TEST
+//       await r(a)
+//         .get(`/updateSnippet/`)
+//         .send({ Snippet: "updated second snippet", id: 2 })
+
+//         .then((r) => {
+//           expect(r.body.id).toBe(secondSnippet.id);
+//           expect(r.statusCode).toBe(200);
+//         })
+//         .catch((e) => {
+//           throw new Error(e);
+//         });
+
+//       await r(a)
+//         .get(`/Snippet/${secondSnippet.id}`) //BUG ! WHAT wOULD I PUT here?
+//         .then((r) => {
+//           expect(r.body.id).toBe(secondSnippet.id);
+//           expect(r.body.Snippet).toBe("updated second snippet");
+//           expect(r.statusCode).toBe(200);
+//         })
+//         .catch((e) => {
+//           throw new Error(e);
+//         });
+//     });
+//     test("It should prove that the snippet is updated (second) staright after editing it", async () => {
+//       // TODO: PREPARE DATA FOR THIS TEST
+//       await r(a)
+//         .get(`/updateSnippet/`)
+//         .send({ Snippet: "updated first snippet" })
+
+//         .then((r) => {
+//           expect(r.body.id).toBe(firstSnippet.id);
+//           expect(r.statusCode).toBe(200);
+//         })
+//         .catch((e) => {
+//           throw new Error(e);
+//         });
+
+//       await r(a)
+//         .get(`/Snippet/${fourthSnippet.id}`)
+//         .then((r) => {
+//           expect(r.body.id).toBe(firstSnippet.id);
+//           expect(r.statusCode).toBe(200);
+//         })
+//         .catch((e) => {
+//           throw new Error(e);
+//         });
+//     });
+//   });
+// });
