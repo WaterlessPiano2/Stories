@@ -1,8 +1,7 @@
-// supertest to test is used for HTTP requests/responses
+//there is a known bug where I cant declare variables with the same name in different files, thats why these are named weirdly
 const r = require("supertest");
-// we need our app for the correct routes
 const a = require("../app");
-// let the system know that we are using the test mode
+
 process.env.NODE_ENV = "test";
 
 // Testing the app
@@ -29,11 +28,6 @@ describe("Sense checking", () => {
 const firstStory = {
     name: "First story",
     id: 1,
-    userID: 1,
-  },
-  secondStory = {
-    name: "Second story",
-    id: 2,
     userID: 1,
   },
   firstSnippet = {
@@ -66,7 +60,6 @@ const firstStory = {
   };
 
 // Testing snippetts
-
 describe("Create, get, update and delete snippets", () => {
   describe("POST/ snippet", () => {
     //breath and depth
@@ -75,10 +68,7 @@ describe("Create, get, update and delete snippets", () => {
         .post("/snippet")
         .send(firstSnippet)
         .then((r) => {
-          // make sure the id is generated
           expect(r.body.id).toBe(firstSnippet.id);
-          // // make sure the name is saved correctly
-          // expect(newUser.body.name).toBe(firstUser.name);
           expect(r.statusCode).toBe(200);
         })
         .catch((e) => {
@@ -90,11 +80,7 @@ describe("Create, get, update and delete snippets", () => {
         .post("/snippet")
         .send(secondSnippet)
         .then((r) => {
-          // console.log(r.body);
-          // make sure the id is generated
           expect(r.body.id).toBe(secondSnippet.id);
-          // // make sure the name is saved correctly
-          // expect(newUser.body.name).toBe(firstUser.name);
           expect(r.statusCode).toBe(200);
         })
         .catch((e) => {
@@ -107,11 +93,7 @@ describe("Create, get, update and delete snippets", () => {
         .post("/snippet")
         .send(thirdSnippet)
         .then((r) => {
-          // console.log(r.body);
-          // make sure the id is generated
           expect(r.body.id).toBe(thirdSnippet.id);
-          // // make sure the name is saved correctly
-          // expect(newUser.body.name).toBe(firstUser.name);
           expect(r.statusCode).toBe(200);
         })
         .catch((e) => {
@@ -124,11 +106,7 @@ describe("Create, get, update and delete snippets", () => {
         .post("/snippet")
         .send(fourthSnippet)
         .then((r) => {
-          // console.log(r.body);
-          // make sure the id is generated
           expect(r.body.id).toBe(fourthSnippet.id);
-          // // make sure the name is saved correctly
-          // expect(newUser.body.name).toBe(firstUser.name);
           expect(r.statusCode).toBe(200);
         })
         .catch((e) => {
@@ -136,17 +114,6 @@ describe("Create, get, update and delete snippets", () => {
         });
     });
     // test("It should error, when adding a snippet with missing info", async () => {
-    //   return await r(a)
-    //     .post("/snippet")
-    //     .send({})
-    //     .then((r) => {
-    //       console.log(r);
-    //       throw new Error(r);
-    //     })
-    //     .catch((e) => {
-    //       console.log(e);
-    //       expect(e.statusCode).toBe(400);
-    //     });
     // });
   });
 
@@ -177,7 +144,7 @@ describe("Create, get, update and delete snippets", () => {
           throw new Error(e);
         });
     });
-    //test("It should error, when requesting a note for an invalid parent id", async () => {});
+    //test("It should error, when requesting a snippet for an invalid parent id", async () => {});
   });
 
   describe("Get/ Main parent snippet by noteID", () => {
@@ -199,11 +166,10 @@ describe("Create, get, update and delete snippets", () => {
 
 describe("PUT/ Snippet", () => {
   describe("Update snippet content  ", () => {
-    test("It should prove that the snippet is updated (first)", async () => {
+    test("It should respond with `success` after snippett is updated", async () => {
       return await r(a)
         .put(`/Snippet/`)
-        .send({ Snippet: "updated first snippet", id: 1 })
-
+        .send({ snippet: "updated second snippet", id: 2 })
         .then((r) => {
           expect(r.body.message).toBe("success");
           expect(r.statusCode).toBe(200);
@@ -214,25 +180,11 @@ describe("PUT/ Snippet", () => {
     });
     test("It should prove that the snippet is updated (first)", async () => {
       return await r(a)
-        .get(`/snippets/${firstSnippet.id}`) //BUG ! WHAT EOULD I PUT here?
-        .then((r) => {
-          expect(r.body).toHaveLength(1);
-          expect(r.body[0].id).toBe(firstSnippet.id);
-          expect(r.body[0].snippet).toBe("updated first snippet");
-
-          expect(r.statusCode).toBe(200);
-        })
-        .catch((e) => {
-          console.log(e);
-          throw new Error(e);
-        });
-
-      return await r(a)
         .get(`/snippets/${firstSnippet.id}`)
         .then((r) => {
           expect(r.body).toHaveLength(1);
           expect(r.body[0].id).toBe(secondSnippet.id);
-          // expect(newUser.body.name).toBe(firstUser.name);
+          expect(r.body[0].snippet).toBe("updated second snippet");
           expect(r.statusCode).toBe(200);
         })
         .catch((e) => {
@@ -240,30 +192,26 @@ describe("PUT/ Snippet", () => {
         });
     });
     test("It should prove that the snippet is updated (second) staright after editing it", async () => {
-      // TODO: PREPARE DATA FOR THIS TEST
       await r(a)
         .put(`/Snippet/`)
-        .send({ Snippet: "updated second snippet", id: 2 })
+        .send({ snippet: "updated third snippet", id: 3 })
         .then((r) => {
           expect(r.body.message).toBe("success");
           expect(r.statusCode).toBe(200);
         })
         .catch((e) => {
-                    console.log(e);
-
           throw new Error(e);
         });
 
       await r(a)
-        .get(`/snippets/${secondSnippet.id}`) //BUG ! WHAT wOULD I PUT here?
+        .get(`/snippets/${secondSnippet.id}`)
         .then((r) => {
-          expect(r.body.id).toBe(secondSnippet.id);
-          expect(r.body.Snippet).toBe("updated second snippet");
+          expect(r.body).toHaveLength(2);
+          expect(r.body[0].id).toBe(thirdSnippet.id);
+          expect(r.body[0].snippet).toBe("updated third snippet");
           expect(r.statusCode).toBe(200);
         })
         .catch((e) => {
-          console.log(e);
-
           throw new Error(e);
         });
     });

@@ -9,9 +9,11 @@ and after each of those, another four possible next sentences, and so on.
 
 ## Todos
 
-- [ ] Create a new note(story) - with name and userID
-- [ ] each story has a parentID, groupID, direction and snippet
-- [ ] Post and get story
+- [x] Create a new note(story) - with name and userID
+- [x] Each story has a parentID, groupID, direction and snippet
+- [x] Post and get story
+- [x] Go back to start
+- [x] Update story
 
 ### how it works
 

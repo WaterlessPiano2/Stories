@@ -187,7 +187,7 @@ class DataBase {
             response = note;
           } else {
             throw new Error(
-              "Error getting Note by Id, No Snipeet with the given Id"
+              "Error getting snippet by Id, No Snipeet with the given Id"
             );
           }
         });
@@ -284,9 +284,8 @@ class DataBase {
 
   static async editSnippet(snippet) {
     let response = {};
-    console.log(321321);
     try {
-      await knex("snippet")
+      await knex("snippets")
         .where({ id: snippet.id })
         .update({ snippet: snippet.snippet })
         .then((r) => {
@@ -299,7 +298,6 @@ class DataBase {
     } catch (e) {
       throw e;
     }
-    console.log(response);
     return response;
   }
 }
