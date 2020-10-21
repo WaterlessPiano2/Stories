@@ -92,8 +92,8 @@ app.get("/note/:id", async (req, res) => {
     });
 });
 
-app.get("/MainparentSnippet/:id", async (req, res) => {
-  db.getMainParentSnippet(req.params.id)
+app.get("/backToStart/:id", async (req, res) => {
+  db.backToStart(req.params.id)
     .then((r) => {
       res.send(r);
     })

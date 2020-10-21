@@ -140,7 +140,7 @@ class DataBase {
     return response;
   }
 
-  static async getMainParentSnippet(id) {
+  static async backToStart(id) {
     if (!id) {
       throw new Error("Can't find a snippet by Id, with missing Id");
     }
@@ -165,7 +165,10 @@ class DataBase {
       throw e;
     }
 
-    return mainParent; //await this.getSnippetsByParentId(mainParent.id);
+    return await {
+      children: await this.getSnippetsByParentId(mainParent.id),
+      parent: mainParent,
+    };
   }
 
   static async getSnippetsByParentId(id) {

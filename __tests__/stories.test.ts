@@ -183,9 +183,10 @@ describe("Create, get, update and delete snippets", () => {
   describe("Get/ Main parent snippet by noteID", () => {
     test("It should respond with the correct main parent snippet when given a snippet ID", async () => {
       return await r(a)
-        .get(`/MainParentSnippet/${fourthSnippet.noteID}`)
+        .get(`/backToStart/${fourthSnippet.noteID}`)
         .then((r) => {
-          expect(r.body.id).toBe(firstSnippet.id);
+          expect(r.body.children[0].id).toBe(secondSnippet.id);
+          expect(r.body.parent.id).toBe(firstSnippet.id);
           expect(r.statusCode).toBe(200);
         })
         .catch((e) => {
