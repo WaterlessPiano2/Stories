@@ -1,4 +1,4 @@
-# A storybook
+# A storybook - API
 
 A web application which enables the user to write **"multi-path stories."**
 
